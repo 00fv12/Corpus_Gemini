@@ -6,11 +6,11 @@ CREATE TABLE IF NOT EXISTS corpus_embeddings (
     source_type VARCHAR(50) NOT NULL,
     source_name VARCHAR(255) NOT NULL,
     chunk_text TEXT NOT NULL,
-    embedding vector(768) NOT NULL,
+    embedding vector(3072) NOT NULL,
     metadata JSONB DEFAULT '{}'::jsonb,
-    created_at TIMESTAMP WITH TIMEZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS idx_corpus_embeddings_vector 
-ON corpus_embeddings 
+CREATE INDEX IF NOT EXISTS idx_corpus_embeddings_vector
+ON corpus_embeddings
 USING hnsw (embedding vector_cosine_ops);

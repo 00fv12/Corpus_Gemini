@@ -1,17 +1,17 @@
 # src/corpus_ai/storage/vector_store.py
-import os
 import json
 import psycopg
 from pgvector.psycopg import register_vector
 from typing import List, Dict, Any
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "postgresql://corpus_user:corpus_password@localhost:5432/corpus_db"
-)
+from corpus_ai.config.settings import get_settings
+
+settings = get_settings()
 
 def get_connection():
-    conn = psycopg.connect(DATABASE_URL)
+    # Convert SQLAlchemy URL to psycopg format
+    db_url = settings.database_url.replace("postgresql+psycopg://", "postgresql://")
+    conn = psycopg.connect(db_url)
     register_vector(conn)
     return conn
 

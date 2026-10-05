@@ -15,6 +15,7 @@ dependencies = [
   "psycopg[binary]",
   "pgvector",
   "pypdf",
+  "reportlab",
 ]
 
 [project.optional-dependencies]
