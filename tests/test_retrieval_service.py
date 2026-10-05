@@ -6,6 +6,8 @@ from corpus_ai.providers.gemini import GeminiProvider
 from corpus_ai.retrieval.service import RetrievalService, Citation, QueryResult
 from corpus_ai.storage.models import CorpusChunk
 
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def mock_settings():

@@ -3,11 +3,13 @@ from unittest.mock import patch, MagicMock
 
 from corpus_ai.ingestion.chunker import semantic_chunking, get_embedding, get_embeddings_for_document
 
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def mock_gemini_client():
     """Mock Gemini client"""
-    with patch('corpus_ai.ingestion.chunker.client') as mock:
+    with patch('corpus_ai.ingestion.chunker.get_client') as mock:
         yield mock
 
 
@@ -68,12 +70,12 @@ def test_get_embedding(mock_gemini_client):
     """Test get_embedding function"""
     mock_response = MagicMock()
     mock_response.embedding.values = [0.1] * 768
-    mock_gemini_client.models.embed_content.return_value = mock_response
+    mock_gemini_client.return_value.models.embed_content.return_value = mock_response
     
     result = get_embedding("Test text")
     
     assert result == [0.1] * 768
-    mock_gemini_client.models.embed_content.assert_called_once()
+    mock_gemini_client.assert_called_once()
 
 
 def test_get_embedding_empty(mock_gemini_client):
@@ -81,14 +83,14 @@ def test_get_embedding_empty(mock_gemini_client):
     result = get_embedding("")
     
     assert result == []
-    mock_gemini_client.models.embed_content.assert_not_called()
+    mock_gemini_client.assert_not_called()
 
 
 def test_get_embeddings_for_document(mock_gemini_client):
     """Test get_embeddings_for_document function"""
     mock_response = MagicMock()
     mock_response.embedding.values = [0.1] * 768
-    mock_gemini_client.models.embed_content.return_value = mock_response
+    mock_gemini_client.return_value.models.embed_content.return_value = mock_response
     
     text = "This is a test document."
     results = get_embeddings_for_document(text, chunk_size=20, overlap=5)
@@ -102,7 +104,7 @@ def test_get_embeddings_for_document(mock_gemini_client):
 
 def test_get_embeddings_for_document_error_handling(mock_gemini_client):
     """Test error handling in get_embeddings_for_document"""
-    mock_gemini_client.models.embed_content.side_effect = Exception("API Error")
+    mock_gemini_client.return_value.models.embed_content.side_effect = Exception("API Error")
     
     text = "Test document."
     results = get_embeddings_for_document(text, chunk_size=20, overlap=5)

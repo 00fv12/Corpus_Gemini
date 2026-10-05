@@ -5,6 +5,8 @@ from pydantic import SecretStr
 from corpus_ai.config.settings import Settings
 from corpus_ai.providers.gemini import GeminiProvider
 
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def mock_settings():

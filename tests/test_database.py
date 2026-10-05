@@ -3,6 +3,8 @@ from unittest.mock import patch, MagicMock
 
 from corpus_ai.storage.database import get_engine, get_session_factory, get_session, Base
 
+pytestmark = pytest.mark.unit
+
 
 def test_get_engine():
     """Test get_engine function"""

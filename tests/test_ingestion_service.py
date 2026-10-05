@@ -7,6 +7,8 @@ from corpus_ai.ingestion.service import IngestionService
 from corpus_ai.ingestion.models import SourceDocument
 from corpus_ai.storage.repository import CorpusRepository
 
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def mock_settings():

@@ -3,6 +3,8 @@ from unittest.mock import Mock, patch, MagicMock
 
 from corpus_ai.storage.vector_store import get_connection, save_embeddings, search_similar_chunks
 
+pytestmark = pytest.mark.unit
+
 
 @pytest.fixture
 def mock_connection():

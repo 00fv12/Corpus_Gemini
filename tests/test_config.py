@@ -4,6 +4,8 @@ from pydantic import ValidationError
 
 from corpus_ai.config.settings import Settings, get_settings
 
+pytestmark = pytest.mark.unit
+
 
 def test_settings_default_values():
     """Test that Settings loads with correct default values"""

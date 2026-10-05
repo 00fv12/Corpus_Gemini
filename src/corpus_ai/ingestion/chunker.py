@@ -1,7 +1,24 @@
 from google import genai
 import os
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+_client = None
+
+
+def get_client():
+    """Get or create the Gemini client (lazy initialization)."""
+    global _client
+    if _client is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY environment variable is not set")
+        _client = genai.Client(api_key=api_key)
+    return _client
+
+
+def set_client(client):
+    """Set a custom client (useful for testing)."""
+    global _client
+    _client = client
 
 
 def semantic_chunking(text: str,
@@ -95,6 +112,7 @@ def get_embedding(text: str) -> list[float]:
     if not text or len(text.strip()) == 0:
         return []
 
+    client = get_client()
     response = client.models.embed_content(
         model="text-embedding-004",
         contents=text

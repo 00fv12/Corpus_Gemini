@@ -27,6 +27,11 @@ packages = ["src/corpus_ai"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+markers = [
+    "unit: Unit tests that test individual components with mocks",
+    "integration: Integration tests that test multiple components together",
+    "slow: Tests that take a long time to run",
+]
 
 [tool.ruff]
 line-length = 100
